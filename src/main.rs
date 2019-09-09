@@ -18,26 +18,26 @@ fn initialize_maze(width: usize, height: usize, value: u8) -> Vec<u8> {
     vec![value; width * height]
 }
 
-fn select_next_index(width: usize, height: usize, index: usize, maze: &Vec<u8>) -> (usize, u8) {
-    let mut possibilities: Vec<(usize, u8)> = Vec::new();
+fn select_next_index(width: usize, height: usize, index: usize, maze: &Vec<u8>) -> (usize, u8, u8) {
+    let mut possibilities: Vec<(usize, u8, u8)> = Vec::new();
     //N
-    if index >= width && maze[index - width] == 0 {
-        possibilities.push((index - width, N));
+    if index >= width && maze[index - width] == 0b1111 {
+        possibilities.push((index - width, N, S));
     }
 
     //E
-    if index % width < width - 1 && maze[index + 1] == 0 {
-        possibilities.push((index + 1, E));
+    if index % width < width - 1 && maze[index + 1] == 0b1111 {
+        possibilities.push((index + 1, E, W));
     }
 
     //S
-    if index < width * (height - 1) && maze[index + width] == 0 {
-        possibilities.push((index + width, S));
+    if index < width * (height - 1) && maze[index + width] == 0b1111 {
+        possibilities.push((index + width, S, N));
     }
 
     //W
-    if index % width != 0 && maze[index - 1] == 0 {
-        possibilities.push((index - 1, W));
+    if index % width != 0 && maze[index - 1] == 0b1111 {
+        possibilities.push((index - 1, W, E));
     }
 
     if possibilities.len() > 0 {
@@ -45,29 +45,28 @@ fn select_next_index(width: usize, height: usize, index: usize, maze: &Vec<u8>) 
         return possibilities[next_index];
     }
 
-    (0 as usize, 0)
+    (0 as usize, 0, 0)
 }
 
 fn main() {
     let width = 5;
     let height = 5;
-    let mut maze: Vec<u8> = initialize_maze(width, height, 0);
+    let mut maze: Vec<u8> = initialize_maze(width, height, 0b1111);
     let mut stack: Vec<usize> = vec![0; 1];
-    maze[0] = 0b1111;
 
     while stack.len() > 0 {
         let stack_index = *stack.last().unwrap();
         let next_stack_index = select_next_index(width, height, stack_index, &maze);
         if next_stack_index.0 > 0 {
             let next_index = next_stack_index.0;
-            maze[stack_index] -= next_stack_index.1;
-            maze[next_index] = 0b1111 - (!(next_stack_index.1 << 2) & 0b1111);
+            maze[stack_index] ^= next_stack_index.1;
+            maze[next_index] ^= next_stack_index.2;
             stack.push(next_index);
         } else {
             //End of path
             stack.pop();
         }
-//        print_maze(h, &maze);
+//        print_maze(height, &maze);
 //        println!();
     }
 
