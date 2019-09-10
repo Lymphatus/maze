@@ -1,4 +1,6 @@
 use rand::Rng;
+use std::env;
+use std::process;
 
 const N: u8 = 0b0001;
 const E: u8 = 0b0010;
@@ -12,6 +14,7 @@ fn print_maze(height: usize, grid: &Vec<u8>) {
         }
         print!("{:04b} ", item);
     }
+    println!();
 }
 
 fn initialize_maze(width: usize, height: usize, value: u8) -> Vec<u8> {
@@ -49,8 +52,14 @@ fn select_next_index(width: usize, height: usize, index: usize, maze: &Vec<u8>) 
 }
 
 fn main() {
-    let width = 5;
-    let height = 5;
+    let args: Vec<String> = env::args().collect();
+    if args.len() != 3 {
+        eprintln!("Invalid arguments number.");
+        process::exit(1);
+    }
+
+    let width: usize = args[1].trim().parse().expect("Width must be an unsigned integer value");
+    let height: usize = args[2].trim().parse().expect("Height must be an unsigned integer value");
     let mut maze: Vec<u8> = initialize_maze(width, height, 0b1111);
     let mut stack: Vec<usize> = vec![0; 1];
 

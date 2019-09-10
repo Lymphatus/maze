@@ -1,0 +1,150 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+
+    <style>
+        .box {
+            height: 50px;
+            width: 50px;
+            display: inline-block;
+            margin-top: -6px;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            height: 0;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .break {
+            break-after: always;
+        }
+
+        #container,
+        html,
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+        }
+
+        rect {
+            fill: none;
+            stroke: black;
+        }
+
+        .b1111 {
+            stroke-dasharray: 1;
+        }
+
+        .b0111 {
+            stroke-dasharray: 150, 50;
+        }
+
+        .b1011 {
+            stroke-dasharray: 100, 50;
+        }
+
+        .b1101 {
+            stroke-dasharray: 50, 50, 100;
+        }
+
+        .b1110 {
+            stroke-dasharray: 0, 50, 150;
+        }
+
+        .b1100 {
+            stroke-dasharray: 0, 100, 100;
+        }
+
+        .b0011 {
+            stroke-dasharray: 0, 0, 100;
+        }
+
+        .b1001 {
+            stroke-dasharray: 50, 100, 50, 50;
+        }
+
+        .b0101 {
+            stroke-dasharray: 50, 50, 50, 50;
+        }
+
+        .b0110 {
+            stroke-dasharray: 0, 50, 100, 50;
+        }
+
+        .b1010 {
+            stroke-dasharray: 0, 50, 0;
+        }
+
+        .b0010 {
+            stroke-dasharray: 0, 50, 50, 50;
+        }
+        .b0000 {
+            stroke-dasharray: 0;
+        }
+
+        .top {
+            stroke-dasharray: 50, 100, 50, 50;
+        }
+
+        .spacer {
+            clear: both;
+            visibility: hidden;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        const input = "1101 0011 1001 0101 0001 0101 0011 1001 0101 0011 1101 0101 0001 0011 1011\n" +
+					"1001 0110 1110 1001 0110 1001 0100 0110 1001 0110 1001 0011 1010 1010 1010\n" +
+					"1100 0101 0011 1100 0011 1110 1001 0011 1100 0101 0110 1010 1010 1100 0010\n" +
+					"1101 0011 1100 0011 1000 0101 0110 1010 1101 0101 0001 0110 1100 0011 1110\n" +
+					"1001 0100 0011 1010 1100 0011 1011 1010 1001 0011 1010 1001 0011 1100 0011\n" +
+					"1000 0011 1110 1100 0011 1100 0110 1100 0110 1010 1010 1010 1100 0011 1010\n" +
+					"1010 1100 0001 0111 1100 0101 0101 0101 0101 0110 1100 0110 1011 1100 0010\n" +
+					"1100 0011 1100 0001 0101 0101 0011 1001 0101 0011 1001 0001 0100 0011 1010\n" +
+					"1011 1100 0011 1010 1001 0111 1010 1110 1001 0110 1010 1010 1001 0110 1010\n" +
+					"1000 0101 0110 1010 1010 1001 0100 0101 0110 1001 0110 1010 1100 0111 1010\n" +
+					"1100 0011 1011 1010 1100 0110 1001 0101 0101 0100 0111 1010 1001 0011 1010\n" +
+					"1001 0100 0110 1100 0011 1001 0110 1101 0001 0011 1001 0110 1010 1010 1010\n" +
+					"1110 1001 0101 0101 0110 1010 1001 0001 0110 1110 1010 1001 0110 1010 1010\n" +
+					"1001 0110 1001 0011 1001 0110 1110 1010 1001 0101 0110 1010 1001 0110 1010\n" +
+					"1100 0101 0110 1100 0100 0101 0101 0110 1100 0101 0101 0110 1100 0101 0110";
+
+        const main = input.split('\n');
+        const container = $('#container');
+        for (const e of main) {
+            const arr = e.split(' ');
+            for (const elem of arr) {
+                const border = elem.split('').reverse().join('px ') + 'px';
+
+                container.append('<div class="box"><svg><rect class="box b' + elem + '"/></svg></div>');
+            }
+            container.append('<div class="spacer"/>');
+        }
+
+
+    </script>
+</body>
+
+</html>
